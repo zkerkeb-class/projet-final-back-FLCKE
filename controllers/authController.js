@@ -5,22 +5,31 @@ const jwt = require('jsonwebtoken');
 
 async function addUser(req, res) {
     // Ajout d'un nouvel utilisateur
-    let { name, email, password} = req.body;
+    let { fullName, email, password, role,phone  } = req.body;
     // Vérifier si l'utilisateur existe déjà
     const existingUser = await Users.find({ email: email });
     if (existingUser.length > 0) {
         return res.status(400).json({ message: 'User already exists' });
     }
-    passwordHash = handleRequest.hashData(passwordHash); // Hash le mot de passe
+    try {
+
+        password = await handleRequest.hashData(password); // Hash le mot de passe
+    }
+    catch (error) {
+        console.error('Error checking existing user:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
     // Créer un nouvel utilisateur
-    const newUser = await Users.create({ name, email, password});
+    const newUser = await Users.create({ fullName, email, password, role, phone });
     newUser.save()
         .then((user) => {
             // Créer un token JWT
             token = jwt.sign({
                 id: user._id,
                 email: user.email,
-                name: user.name,
+                fullName: user.fullName,
+                role: user.role,
+                phone: user.phone  
             }, process.env.JWT_SECRET, { expiresIn: '24h' }); // Remplacez 'votre_clé_secrète' par votre clé secrète
 
             // 4. Préparer une réponse sans le hash
@@ -53,12 +62,14 @@ async function loginUser(req, res) {
         const token = jwt.sign({
             id: user._id,
             email: user.email,
-            name: user.name,
+            fullName: user.fullName,
+            role: user.role,
+            phone: user.phone  
         }, process.env.JWT_SECRET, { expiresIn: '24h' });
 
         // 4. Préparer une réponse sans le hash
         const userObj = user.toObject();
-        delete userObj.passwordHash;
+        delete userObj.password;
 
         return res.status(200).json({ token, user: userObj });
 

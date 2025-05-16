@@ -1,4 +1,5 @@
 const Users = require('../models/usersModel');
+const handleRequest = require('../utils/handleRequest');
 
 async function getUserById(req, res) {
     // Récupérer un utilisateur par ID
