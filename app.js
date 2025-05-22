@@ -6,6 +6,8 @@ import swaggerJsDoc from 'swagger-jsdoc';
 import swaggerDocs from './swagger.js'; // Assurez-vous que le chemin est correct
 import authRoutes from './routes/authRoutes.js'; // Assurez-vous que le chemin est correct
 import userRoutes from "./routes/usersRoutes.js"; // Assurez-vous que le chemin est correct
+import propertiesRoutes from "./routes/propertiesRoutes.js"; // Assurez-vous que le chemin est correct
+import leasesRoutes from "./routes/leasesRoutes.js"; // Assurez-vous que le chemin est correct
 //const authRoutes = require("./routes/authRoutes"); // Assurez-vous que le chemin est correct
 //const userRoutes = require("./routes/usersRoutes"); // Assurez-vous que le chemin est correct
 
@@ -23,5 +25,6 @@ app.use("/api/user", userRoutes); // Assurez-vous que le chemin est correct
 //app.use("/api/local", localRoutes); // Assurez-vous que le chemin est correct
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use("/api/auth", authRoutes); // Assurez-vous que le chemin est correct
-
+app.use("/api/properties", propertiesRoutes); // Assurez-vous que le chemin est correct
+app.use("/api/leases", leasesRoutes); // Assurez-vous que le chemin est correct
 export default app; // Exporter l'application Express pour les tests
