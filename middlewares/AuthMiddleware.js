@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-
+//const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
 function verifyToken(req, res, next) {
     const token = req.headers['authorization'];
@@ -22,4 +22,4 @@ function verifyToken(req, res, next) {
         return res.status(403).json({ message: 'Forbidden' });
     }
 }
-module.exports = { verifyToken };
+export default  verifyToken ;

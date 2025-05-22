@@ -1,5 +1,5 @@
-const swaggerJsDoc = require('swagger-jsdoc');
-
+// const swaggerJsDoc = require('swagger-jsdoc');
+import swaggerJsDoc from 'swagger-jsdoc';
 // Configuration de Swagger
 const swaggerOptions = {
     swaggerDefinition: {
@@ -20,4 +20,4 @@ const swaggerOptions = {
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
-module.exports = swaggerDocs; // Exporter la documentation Swagger pour l'utiliser dans le serveur Express                                                                                              
+export default swaggerDocs; // Exporter la documentation Swagger pour l'utiliser dans le serveur Express                                                                                              

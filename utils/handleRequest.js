@@ -1,4 +1,4 @@
-const bcrypt = require('bcryptjs');
+import bcrypt from 'bcryptjs';
 function verifyDataNotFound(data, res){
     if (!data) {
         return res.status(404).json({ message: 'Data not  found now' });
@@ -19,7 +19,7 @@ async function compareData(data, hash) {
     const isMatch = await bcrypt.compare(data, hash);
     return isMatch;
 }   
-module.exports = {
+export default {
     verifyDataNotFound,
     hashData,
 };

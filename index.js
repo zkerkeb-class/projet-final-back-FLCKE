@@ -1,7 +1,7 @@
-const app = require('./app'); // Assurez-vous que le chemin est correct
-
-const db = require('./config/db'); // Assurez-vous que le chemin est correct
-require('dotenv').config();
+import app from "./app.js"; 
+import db from "./config/db.js";
+import dotenv from 'dotenv';
+dotenv.config();
 
 const PORT = process.env.PORT || 5000;
 

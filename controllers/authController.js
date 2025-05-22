@@ -1,11 +1,16 @@
-const Users = require('../models/usersModel');
-const handleRequest = require('../utils/handleRequest');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+// const Users = require('../models/usersModel');
+// const handleRequest = require('../utils/handleRequest');
+// const bcrypt = require('bcrypt');
+// const jwt = require('jsonwebtoken');
+
+import Users from '../models/usersModel.js';
+import handleRequest from '../utils/handleRequest.js';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 async function addUser(req, res) {
     // Ajout d'un nouvel utilisateur
-    let { fullName, email, password, role,phone  } = req.body;
+    let { fullName, email, password, role, phone } = req.body;
     // Vérifier si l'utilisateur existe déjà
     const existingUser = await Users.find({ email: email });
     if (existingUser.length > 0) {
@@ -23,16 +28,7 @@ async function addUser(req, res) {
     const newUser = await Users.create({ fullName, email, password, role, phone });
     newUser.save()
         .then((user) => {
-            // Créer un token JWT
-            token = jwt.sign({
-                id: user._id,
-                email: user.email,
-                fullName: user.fullName,
-                role: user.role,
-                phone: user.phone  
-            }, process.env.JWT_SECRET, { expiresIn: '24h' }); // Remplacez 'votre_clé_secrète' par votre clé secrète
-
-            // 4. Préparer une réponse sans le hash
+            
             const userObj = user.toObject();
             delete userObj.password;
             // Ajoutez le token à l'utilisateur  
@@ -64,7 +60,7 @@ async function loginUser(req, res) {
             email: user.email,
             fullName: user.fullName,
             role: user.role,
-            phone: user.phone  
+            phone: user.phone
         }, process.env.JWT_SECRET, { expiresIn: '24h' });
 
         // 4. Préparer une réponse sans le hash
@@ -78,7 +74,8 @@ async function loginUser(req, res) {
     }
 }
 
-module.exports = {
-    addUser,
-    loginUser,
-};
+// module.exports = {
+//     addUser,
+//     loginUser,
+// };
+export default { addUser, loginUser }; 

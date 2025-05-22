@@ -1,5 +1,7 @@
-const Users = require('../models/usersModel');
-const handleRequest = require('../utils/handleRequest');
+//const Users = require('../models/usersModel');
+//const handleRequest = require('../utils/handleRequest');
+import Users from '../models/usersModel.js';
+import handleRequest from '../utils/handleRequest.js';
 
 async function getUserById(req, res) {
     // Récupérer un utilisateur par ID
@@ -26,9 +28,15 @@ async function updateUser(req, res) {
     handleRequest.verifyDataNotFound(user, res);
 }
 
-module.exports = {
+// module.exports = {
+//     getUserById,
+//     getAllUsers,
+//     updateUser,
+//     deleteUser,
+// }
+export default {
     getUserById,
     getAllUsers,
     updateUser,
     deleteUser,
-}
+};
