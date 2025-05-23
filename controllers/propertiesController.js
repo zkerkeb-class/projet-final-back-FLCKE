@@ -26,8 +26,8 @@ async function addProperty(req, res) {
 }
 async function getAllPropertiesByUser(req, res) {
     // Récupérer toutes les propriétés d'un utilisateur
-    const userId = req.params.id;
-    const properties = await propertiesModel.find({ owner_id: userId });
+    const owner_id = req.params.id;
+    const properties = await propertiesModel.find({ owner_id: owner_id });
     handleRequest.verifyDataNotFound(properties, res);
 }
 async function getPropertyById(req, res) {

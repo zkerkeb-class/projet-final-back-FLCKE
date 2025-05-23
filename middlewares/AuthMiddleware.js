@@ -2,7 +2,8 @@
 import jwt from 'jsonwebtoken';
 
 function verifyToken(req, res, next) {
-    const token = req.headers['authorization'];
+    let token = req.headers['authorization'];
+    token = token.split(' ')[1];
     if (!token) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
@@ -13,13 +14,14 @@ function verifyToken(req, res, next) {
     try {
         // Ici, vous pouvez ajouter la logique pour vérifier le token
         // Par exemple, si vous utilisez JWT, vous pouvez le décoder et vérifier sa validité
+       
         const decoded = jwt.verify(token, process.env.JWT_SECRET); // Remplacez 'votre_clé_secrète' par votre clé secrète
         if (!decoded) {
-            return res.status(403).json({ message: 'Forbidden' });
+            return res.status(403).json({ message: 'Forbidden token' });
         }
         next(); // Passez au middleware suivant
     } catch (error) {
-        return res.status(403).json({ message: 'Forbidden' });
+        return res.status(403).json({ message: 'checking failled  ' });
     }
 }
-export default  verifyToken ;
+export default verifyToken;

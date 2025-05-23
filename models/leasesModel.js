@@ -21,7 +21,7 @@ const leaseSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['actif', 'terminé', 'en attente'],
+        enum: ['actif', 'termine','suspendu'],
         default: 'actif'
     }
 });
