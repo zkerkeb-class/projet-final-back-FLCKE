@@ -19,10 +19,14 @@ const leaseSchema = new mongoose.Schema({
         type: Date,
         required: false
     },
+    rent_date: {
+        type: Number,
+        required: false
+    },
     status: {
         type: String,
-        enum: ['actif', 'termine','suspendu'],
-        default: 'actif'
+        enum: ['En attente', 'actif', 'termine', 'suspendu'],
+        default: 'en attente'
     }
 });
 

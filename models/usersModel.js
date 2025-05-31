@@ -8,7 +8,7 @@ const userSchema = new Schema({
     },
     fullName: {
         type: String,
-        required: true
+        required: false
     },
     email: {
         type: String,
@@ -21,7 +21,7 @@ const userSchema = new Schema({
     },
     phone: {
         type: String,
-        required: true
+        required: false
     },
     role: {
         type: String,
@@ -38,4 +38,4 @@ const userSchema = new Schema({
     }
 });
 
-export default mongoose.model('Users', userSchema);
+export default mongoose.model('User', userSchema);
