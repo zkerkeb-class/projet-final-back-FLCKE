@@ -9,6 +9,7 @@ import userRoutes from "./routes/usersRoutes.js"; // Assurez-vous que le chemin 
 import propertiesRoutes from "./routes/propertiesRoutes.js"; // Assurez-vous que le chemin est correct
 import leasesRoutes from "./routes/leasesRoutes.js"; // Assurez-vous que le chemin est correct
 import contratRoutes from "./routes/contratRoutes.js"; // Assurez-vous que le chemin est correct
+import payementRoutes from "./routes/payementRoutes.js"
 //const authRoutes = require("./routes/authRoutes"); // Assurez-vous que le chemin est correct
 //const userRoutes = require("./routes/usersRoutes"); // Assurez-vous que le chemin est correct
 
@@ -29,4 +30,5 @@ app.use("/api/auth", authRoutes); // Assurez-vous que le chemin est correct
 app.use("/api/properties", propertiesRoutes); // Assurez-vous que le chemin est correct
 app.use("/api/leases", leasesRoutes); // Assurez-vous que le chemin est correct
 app.use("/api/generate-contrat", contratRoutes);
+app.use("/api/payement", payementRoutes);
 export default app; // Exporter l'application Express pour les tests
