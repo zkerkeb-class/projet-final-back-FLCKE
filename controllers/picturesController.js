@@ -16,13 +16,13 @@ const storage = new CloudinaryStorage({
 });
 
 const upload = multer({ storage: storage });
-const uploadSingle = upload.single('image');
+const uploadSingle = upload.single('file');
 
 async function uploadUserPicture(req, res) {
     uploadSingle(req, res, async function (err) {
         if (err) {
             console.error('Erreur Multer :', err);
-            return res.status(400).json({ error: 'Erreur lors de l\'upload de la photo' });
+            return res.status(400).json({ error: err.message });
         }
 
         if (!req.file) {
