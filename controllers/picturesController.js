@@ -1,25 +1,23 @@
-
 import picturesModel from '../models/picturesModel.js';
 import handleRequest from '../utils/handleRequest.js';
 import cloudinary from '../config/cloudinary.js';
-import multer from "multer"
-import { CloudinaryStorage } from "multer-storage-cloudinary";
-
+import multer from 'multer';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
 
 // Configurer le stockage Multer vers Cloudinary
 const storage = new CloudinaryStorage({
-    cloudinary: cloudinary,
+    cloudinary,
     params: {
         folder: 'GestLocal', // Nom du dossier sur Cloudinary
         allowed_formats: ['jpg', 'png', 'jpeg', 'webp']
     }
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 const uploadSingle = upload.single('file');
 
-async function uploadUserPicture(req, res) {
-    uploadSingle(req, res, async function (err) {
+const uploadUserPicture = async (req, res) => {
+    uploadSingle(req, res, async (err) => {
         if (err) {
             console.error('Erreur Multer :', err);
             return res.status(400).json({ error: err.message });
@@ -39,7 +37,7 @@ async function uploadUserPicture(req, res) {
             await picturesModel.deleteMany({ userId });
 
             const newPhoto = await picturesModel.create({
-                userId: userId,
+                userId,
                 imageUrl: req.file.path,
             });
 
@@ -49,24 +47,21 @@ async function uploadUserPicture(req, res) {
             res.status(500).json({ error: 'Erreur interne du serveur' });
         }
     });
-}
+};
 
-async function getPicture(req, res) {
-    const userId = await req.params.id;
+const getPicture = async (req, res) => {
+    const { id } = req.params;
     try {
-        const picture = await picturesModel.findOne({ userId: userId });
+        const picture = await picturesModel.findOne({ userId: id });
 
         if (picture) {
             return res.status(200).send(picture);
         }
 
         return res.status(404).send('Picture not found');
-
-    }
-    catch (error) {
+    } catch (error) {
         res.status(400).send("Error:", error);
     }
-
-}
+};
 
 export default { uploadUserPicture, getPicture };

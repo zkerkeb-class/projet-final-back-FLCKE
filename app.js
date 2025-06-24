@@ -1,4 +1,3 @@
-
 import express from "express";
 import cors from "cors";
 import swaggerUi from 'swagger-ui-express';
@@ -11,6 +10,8 @@ import leasesRoutes from "./routes/leasesRoutes.js"; // Assurez-vous que le chem
 import contratRoutes from "./routes/contratRoutes.js"; // Assurez-vous que le chemin est correct
 import payementRoutes from "./routes/payementRoutes.js"
 import picturesRoutes from "./routes/picturesRoutes.js"
+import statRoutes from "./routes/statRoutes.js"
+import rateLimiter from "./middlewares/RateLimiter.js";
 //const authRoutes = require("./routes/authRoutes"); // Assurez-vous que le chemin est correct
 //const userRoutes = require("./routes/usersRoutes"); // Assurez-vous que le chemin est correct
 
@@ -20,7 +21,7 @@ app.use(express.json()); // Middleware pour parser le JSON dans les requêtes
 
 app.use(cors({ origin: "http://localhost:5173", credentials: true })); // Middleware pour activer CORS
 
-
+app.use(rateLimiter);
 app.get("/", (req, res) => {
     res.send("API OK ✅");
 });
@@ -33,4 +34,5 @@ app.use("/api/leases", leasesRoutes); // Assurez-vous que le chemin est correct
 app.use("/api/generate-contrat", contratRoutes);
 app.use("/api/payement", payementRoutes);
 app.use("/api/picture", picturesRoutes);
+app.use("/api/stats", statRoutes);
 export default app; // Exporter l'application Express pour les tests
