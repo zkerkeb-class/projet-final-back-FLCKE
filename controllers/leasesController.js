@@ -4,6 +4,7 @@ import Properties from '../models/propertiesModel.js';
 import Users from '../models/usersModel.js';
 import handleRequest from '../utils/handleRequest.js';
 import usersController from './usersController.js';
+import { sendMail } from '../utils/mailSender.js';
 
 const addLease = async (req, res) => {
     let { property_id, name, email, start_date, end_date, rent_date } = req.body;
@@ -90,10 +91,27 @@ const updateLease = async (req, res) => {
 
 const suspendLease = async (req, res) => {
     const leaseId = req.params.id;
-    const lease = await leasesModel.findOne({ _id: leaseId });
+    const lease = await leasesModel.findOne({ _id: leaseId }).populate("tenant_id property_id");
     const result = await leasesModel.updateOne({ _id: leaseId }, { status: 'suspendu' });
     const updateProperty = await Properties.updateOne({ _id: lease.property_id }, { "status": "disponible" })
-    handleRequest.verifyDataNotFound(result, res);
+    try {
+        await sendMail({
+            to: lease.tenant_id.email,
+            subject: 'Suspension de votre location',
+            html: `
+                <h3>Bonjour ${lease.tenant_id.fullName}</h3>
+                <p>Nous vous informons que votre bail pour le bien <strong>${lease.property_id.name}</strong> a été <strong>suspendu</strong>.</p>
+                <p>Pour toute question, veuillez nous contacter via ce lien :</p>
+                <a href="tel:${lease.property_id.phone}">Contacter le support</a>
+                <p>Merci de votre compréhension.</p>
+            `
+        });
+
+        handleRequest.verifyDataNotFound(result, res);
+    } catch (error) {
+        console.error("Erreur lors de l'envoi de l'email :", error);
+        res.status(500).json({ error: 'Erreur interne du serveur' });
+    }
 };
 
 
