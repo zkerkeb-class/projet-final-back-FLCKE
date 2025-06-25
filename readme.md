@@ -48,7 +48,8 @@
 Crée un fichier .env à la racine et complète-le avec tes informations MongoDB, JWT, Cloudinary, etc.
 
 3. **Démarrer le serveur**
-```bash
+    ```bash
+
     npm run dev
 4. **Accéder à la documentation API**
 
