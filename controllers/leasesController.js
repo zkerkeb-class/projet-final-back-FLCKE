@@ -19,8 +19,11 @@ const addLease = async (req, res) => {
 
     try {
         const newLease = await leasesModel.create({ property_id, tenant_id: tenant._id, start_date, end_date, rent_date, status: 'En attente' });
+        await Properties.updateOne({ _id: property_id }, { "status": "louer" })
         newLease.save()
-            .then((lease) => res.status(201).json(lease))
+            .then((lease) => {
+                res.status(201).json(lease)
+            })
             .catch(err => res.status(400).json({ error: err.message }));
     } catch (error) {
         console.error('Error checking existing lease:', error);
@@ -87,9 +90,12 @@ const updateLease = async (req, res) => {
 
 const suspendLease = async (req, res) => {
     const leaseId = req.params.id;
-    const lease = await leasesModel.updateOne({ _id: leaseId }, { status: 'suspendu' });
-    handleRequest.verifyDataNotFound(lease, res);
+    const lease = await leasesModel.findOne({ _id: leaseId });
+    const result = await leasesModel.updateOne({ _id: leaseId }, { status: 'suspendu' });
+    const updateProperty = await Properties.updateOne({ _id: lease.property_id }, { "status": "disponible" })
+    handleRequest.verifyDataNotFound(result, res);
 };
+
 
 export default {
     addLease,

@@ -1,6 +1,7 @@
 import Users from '../models/usersModel.js';
 import Property from '../models/propertiesModel.js';
 import Lease from '../models/leasesModel.js';
+import payementModel from '../models/payementModel.js';
 
 export const getOwnerDashboardStats = async (req, res) => {
     const { id: ownerId } = req.params;
@@ -30,9 +31,13 @@ export const getOwnerDashboardStats = async (req, res) => {
     const totalLeases = leases.length;
 
     // 5. Revenu mensuel attendu (somme des loyers)
-    const totalRevenue = leases.reduce((sum, lease) => {
-        if (lease.property_id?.rent) {
-            return sum + lease.property_id.rent;
+
+    const Payements = await payementModel.find({
+        property: { $in: propertyIds }
+    });
+    const totalRevenue = Payements.reduce((sum, payment) => {
+        if (payment.amount) {
+            return sum + payment.amount;
         }
         return sum;
     }, 0);

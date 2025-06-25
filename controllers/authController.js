@@ -68,7 +68,7 @@ export const requestPasswordReset = async (req, res) => {
 
     const user = await Users.findOne({ email });
     if (!user) {
-        return res.status(400).json({ error: "Utilisateur non trouvé." });
+        return res.status(400).json({ message: "Utilisateur non trouvé." });
     }
 
     const resetToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });

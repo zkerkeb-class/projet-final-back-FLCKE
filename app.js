@@ -12,6 +12,7 @@ import payementRoutes from "./routes/payementRoutes.js"
 import picturesRoutes from "./routes/picturesRoutes.js"
 import statRoutes from "./routes/statRoutes.js"
 import rateLimiter from "./middlewares/RateLimiter.js";
+import { startMonthlyPaymentCron } from "./utils/monthlyPayement.js";
 //const authRoutes = require("./routes/authRoutes"); // Assurez-vous que le chemin est correct
 //const userRoutes = require("./routes/usersRoutes"); // Assurez-vous que le chemin est correct
 
@@ -22,6 +23,9 @@ app.use(express.json()); // Middleware pour parser le JSON dans les requêtes
 app.use(cors({ origin: "http://localhost:5173", credentials: true })); // Middleware pour activer CORS
 
 app.use(rateLimiter);
+
+startMonthlyPaymentCron()
+
 app.get("/", (req, res) => {
     res.send("API OK ✅");
 });
